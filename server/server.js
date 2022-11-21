@@ -7,7 +7,7 @@ const db = require("./config/connection");
 const { authMiddleware } = require("./utils/auth");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3931;
 const server = new ApolloServer({
   typeDefs,
   resolvers,

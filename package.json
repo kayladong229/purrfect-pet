@@ -4,15 +4,25 @@
     "description": "An application that will help you find your new pet!",
     "main": "server/server.js",
     "scripts": {
-      "start": "node server/server.js",
-      "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-      "install": "cd server && npm i && cd ../client && npm i",
-      "build": "cd client && npm run build"
+        "start": "node server/server.js",
+        "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+        "install": "cd server && npm i && cd ../client && npm i",
+        "build": "cd client && npm run build"
     },
     "keywords": [],
     "author": "Shawn Chang, Kayla Dong, Emanuel Medina, Ha Nguyen, Jose San Mateo",
     "license": "ISC",
     "devDependencies": {
-      "concurrently": "^5.1.0"
+        "autoprefixer": "^10.4.13",
+        "concurrently": "^5.1.0",
+        "postcss": "^8.4.19",
+        "tailwindcss": "^3.2.4",
+        "web-vitals": "^3.1.0"
+    },
+    "dependencies": {
+        "apollo-server-express": "^3.11.1",
+        "graphql": "^16.6.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     }
-  }
+}
