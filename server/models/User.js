@@ -1,6 +1,9 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
+// import schema from Pet.js
+const petSchema = require('./Pet');
+
 const userSchema = new Schema({
   username: {
     type: String,
@@ -19,6 +22,7 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  savedPets: [petSchema],
 });
 
 userSchema.pre('save', async function (next) {
