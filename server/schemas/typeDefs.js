@@ -22,6 +22,7 @@ const typeDefs = gql`
     good_with_children: Boolean
     house_trained: Boolean
     special_needs: Boolean
+    location: String
   }
 
   type Auth {
@@ -42,6 +43,7 @@ const typeDefs = gql`
     good_with_children: Boolean
     house_trained: Boolean
     special_needs: Boolean
+    location: String
   }
 
   type Query {
