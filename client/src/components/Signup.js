@@ -1,92 +1,87 @@
-// see SignupForm.js for comments
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
-
-import { loginUser } from '../utils/API';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
+import { ADD_USER } from '../utils/mutations';
 
-const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
-  };
+function Signup(props) {
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    const mutationResponse = await addUser({
+      variables: {
+        email: formState.email,
+        password: formState.password,
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+      },
+    });
+    const token = mutationResponse.data.addUser.token;
+    Auth.login(token);
+  };
 
-    // check if form has everything (as per react-bootstrap docs)
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    try {
-      const response = await loginUser(userFormData);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
-    }
-
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
     });
   };
 
   return (
-    <>
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your login credentials!
-        </Alert>
-        <Form.Group>
-          <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
-          />
-          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
-        </Form.Group>
+    <div className="container my-1">
+      <Link to="/login">← Go to Login</Link>
 
-        <Form.Group>
-          <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
+      <h2>Signup</h2>
+      <form onSubmit={handleFormSubmit}>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            placeholder="First"
+            name="firstName"
+            type="firstName"
+            id="firstName"
+            onChange={handleChange}
           />
-          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
-        </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
-          Submit
-        </Button>
-      </Form>
-    </>
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            placeholder="Last"
+            name="lastName"
+            type="lastName"
+            id="lastName"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="email">Email:</label>
+          <input
+            placeholder="youremail@test.com"
+            name="email"
+            type="email"
+            id="email"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="pwd">Password:</label>
+          <input
+            placeholder="******"
+            name="password"
+            type="password"
+            id="pwd"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row flex-end">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
   );
-};
+}
 
-export default LoginForm;
+export default Signup;
