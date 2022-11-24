@@ -1,4 +1,0 @@
-export const UPDATE_PETS = "UPDATE_PETS";
-
-export const UPDATE_PETS = "UPDATE_PETS";
-export const UPDATE_CURRENT_PETS = "UPDATE_CURRENT_PETS";

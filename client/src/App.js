@@ -1,9 +1,9 @@
 import React from 'react';
+
+// import from components
 import Banner from './components/banner';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import PhotoFrame from './components/PhotoFrame';
-
-
 
 import {
   ApolloClient,
@@ -38,7 +38,14 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <><Banner /><NavBar /></>
+    <div>
+      <ApolloProvider client={client}>
+        <Banner />
+        <NavBar />
+        <PhotoFrame />
+      {/* add components here */}
+      </ApolloProvider>
+    </div>
   )
 };
 
