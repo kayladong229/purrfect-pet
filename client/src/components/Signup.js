@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
 
-function Signup(props) {
+function SignupForm(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [addUser] = useMutation(ADD_USER);
 
@@ -85,4 +84,4 @@ function Signup(props) {
   );
 }
 
-export default Signup;
+export default SignupForm;

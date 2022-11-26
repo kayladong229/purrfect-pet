@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedPets` array in User.js
+// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedPetss` array in User.js
 const petSchema = new Schema({
+  // saved pet id from PetFinder
   petId: {
     type: String,
     required: true,

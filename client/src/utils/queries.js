@@ -24,16 +24,3 @@ export const GET_ME = gql`
     }
   }
 `;
-
-// possibly add these later
-export const QUERY_USER = gql `
-`;
-
-export const QUERY_PETS = gql`
-`;
-
-export const QUERY_SAVED_PETS = gql `
-`;
-
-export const QUERY_PET_TYPES = gql `
-`;
