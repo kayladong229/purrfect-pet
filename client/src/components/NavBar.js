@@ -1,6 +1,8 @@
 import React from 'react';
-import Signup from './Signup'
-import Login from './Login'
+// eslint-disable-next-line
+import Signup from './Signup';
+// eslint-disable-next-line
+import Login from './Login';
 export default function NavBar() {
     return (
         <div>
