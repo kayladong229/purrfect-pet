@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-// import Banner from './components/banner';
-// import NavBar from './components/NavBar';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Banner from './components/banner';
+import NavBar from './components/NavBar';
 // import PhotoFrame from './components/PhotoFrame';
 
 import SearchPets from './pages/SearchPets';
@@ -10,6 +10,7 @@ import SavedPets from './pages/SavedPets';
 import {
   ApolloClient,
   InMemoryCache,
+  // eslint-disable-next-line
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
@@ -35,6 +36,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// eslint-disable-next-line
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
@@ -45,13 +47,13 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <>
-          {/* <Banner />
-          <Navbar /> */}
-          <Router>
-            <Route exact path="/" component={SearchPets} />
-            <Route exact path="/saved" component={SavedPets} />
+          <Banner />
+          <NavBar />
+          <Routes>
+            <Route exact path="/" element={<SearchPets/>} />
+            <Route exact path="/saved" element={<SavedPets/>} />
             <Route render={() => <h1 className="display-2">Wrong page!</h1>} />
-          </Router>
+          </Routes>
         </>
       </Router>
     </ApolloProvider>

@@ -53,5 +53,9 @@ export const deletePet = (petId, token) => {
 // make a search to google pets api
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
 export const searchPets = (type) => {
-  return fetch(`https://api.petfinder.com/v2/types/${type}`);
-};
+  return fetch(`https://api.petfinder.com/v2/animals?type=${type}`, {
+    crossorigin: true,
+          withCredentials: true,    
+          mode: 'no-cors'}
+          )};
+
