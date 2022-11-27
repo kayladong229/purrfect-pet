@@ -9,7 +9,7 @@ export default () => {
     if (accessToken === null) return;
     const fetchPets = async () => {
       const petResults = await fetch(
-        "https://api.petfinder.com/v2/animals",
+        "GET https://api.petfinder.com/v2/animals",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
