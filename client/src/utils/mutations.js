@@ -20,6 +20,7 @@ export const ADD_USER = gql`
         _id
         username
         email
+        petCount
         savedPets {
           petId
           type
@@ -46,6 +47,7 @@ export const SAVE_PET = gql`
       _id
       username
       email
+      petCount
       savedPets {
         petId
         type
@@ -71,6 +73,7 @@ export const REMOVE_PET = gql`
       _id
       username
       email
+      petCount
       savedPets {
         petId
         type

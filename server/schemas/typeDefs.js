@@ -5,7 +5,7 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    password: String
+    petCount: Int
     savedPets: [Pet]
   }
 
@@ -47,8 +47,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    users: [User]
-    user(username: String!): User
     me: User
   }
 
