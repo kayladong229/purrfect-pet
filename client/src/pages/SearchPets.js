@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { useMutation } from "@apollo/client";
 
 import Auth from '../utils/auth';
-import { savePet, searchPets } from '../utils/API';
+import { searchPets } from '../utils/API';
 import { savePetIds, getSavedPetIds } from '../utils/localStorage';
+import {SAVE_PET} from '../utils/mutations';
 
 const SearchPets = () => {
   // create state for holding returned Petfinder api data
@@ -13,6 +15,8 @@ const SearchPets = () => {
 
   // create state to hold saved petsId values
   const [savedPetIds, setSavedPetIds] = useState(getSavedPetIds());
+
+  const [savePet] = useMutation(SAVE_PET);
 
   // set up useEffect hook to save `savedPetIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -65,11 +69,9 @@ const SearchPets = () => {
     }
 
     try {
-      const response = await savePet(petToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const { data } = await savePet({
+        variables: { input: petToSave }
+      })
 
       // if pet successfully saves to user's account, save pet id to state
       setSavedPetIds([...savedPetIds, petToSave.petId]);
