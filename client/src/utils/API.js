@@ -1,3 +1,5 @@
+
+
 // route to get logged in user's info (needs the token)
 export const getMe = (token) => {
   return fetch('/api/users/me', {
@@ -56,6 +58,6 @@ export const searchPets = (type) => {
   return fetch(`https://api.petfinder.com/v2/animals?type=${type}`, {
     crossorigin: true,
           withCredentials: true,    
-          mode: 'no-cors'}
+          mode: 'no-cors'},
           )};
 
