@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Banner from './components/banner';
 import NavBar from './components/NavBar';
 // import PhotoFrame from './components/PhotoFrame';
+// import Login from "./components/Login";
+// import Signup from "./components/Signup";
+import { useEffect, createContext, useState } from "react";
 
 import SearchPets from './pages/SearchPets';
 import SavedPets from './pages/SavedPets';
@@ -16,6 +19,8 @@ import {
 } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
+export const AuthContext = createContext();
+
 
 // //import authorization
 // import auth from './utils/auth';
@@ -43,8 +48,21 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const res = await fetch("pages/api/oauth-token");
+      const json = await res.json();
+      setAccessToken(json.access_token);
+    };
+    fetchAccessToken();
+  }, []);
+
   return (
     <ApolloProvider client={client}>
+      <AuthContext.Provider value={accessToken}>
+
       <Router>
         <>
           <Banner />
@@ -56,6 +74,8 @@ function App() {
           </Routes>
         </>
       </Router>
+      </AuthContext.Provider>
+
     </ApolloProvider>
   );
 }

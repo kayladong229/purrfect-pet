@@ -1,6 +1,6 @@
 import ResultPane from "../result-pane";
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "./app";
+import { AuthContext } from "../App";
 
 export default () => {
   const [results, setResults] = useState(null);
@@ -9,7 +9,7 @@ export default () => {
     if (accessToken === null) return;
     const fetchPets = async () => {
       const petResults = await fetch(
-        "GET https://api.petfinder.com/v2/animals",
+        `https://api.petfinder.com/v2/animals`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
