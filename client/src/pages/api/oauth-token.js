@@ -1,5 +1,5 @@
-import { petFinderKey, petFinderSecret } from "../../../api-keys";
-export default async (req, res) => {
+import { petFinderKey, petFinderSecret } from "../../api-keys.js";
+const oauth = async (req, res) => {
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
   params.append("client_id", petFinderKey);
@@ -12,5 +12,7 @@ export default async (req, res) => {
     }
   );
   const data = await petfinderRes.json();
-  res.send(data);
+  return(data);
 };
+
+export default oauth;
