@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 // import Login from "./components/Login";
 // import Signup from "./components/Signup";
 import { useEffect, createContext, useState } from "react";
+import oauth from './pages/api/oauth-token';
 
 import SearchPets from './pages/SearchPets';
 import SavedPets from './pages/SavedPets';
@@ -52,9 +53,8 @@ function App() {
 
   useEffect(() => {
     const fetchAccessToken = async () => {
-      const res = await fetch("pages/api/oauth-token");
-      const json = await res.json();
-      setAccessToken(json.access_token);
+      const res = await oauth();
+      setAccessToken(res.access_token);
     };
     fetchAccessToken();
   }, []);

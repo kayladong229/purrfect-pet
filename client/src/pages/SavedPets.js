@@ -11,7 +11,7 @@ import { REMOVE_PET } from '../utils/mutations';
 
 const SavedPets = () => {
   const { loading, data } = useQuery(GET_ME);
-  const [removePet, { error }] = useMutation(REMOVE_PET);
+  const [removePet] = useMutation(REMOVE_PET);
 
   const userData = data?.me || {};
 

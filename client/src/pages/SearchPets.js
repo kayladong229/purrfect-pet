@@ -11,11 +11,15 @@ import {
 import { useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
-import { searchPets } from '../utils/API';
+import { fetchPets } from '../utils/API';
 import { savePetIds, getSavedPetIds } from "../utils/localStorage";
 import { SAVE_PET } from "../utils/mutations";
 
+import { useContext } from "react";
+import { AuthContext } from "../App";
+
 const SearchPets = () => {
+  const accessToken = useContext(AuthContext);
   // create state for holding returned Petfinder api data
   const [searchedPets, setsearchedPets] = useState([]);
   // create state for holding our search field data
@@ -41,8 +45,8 @@ const SearchPets = () => {
     }
 
     try {
-      const response = await searchPets(searchInput);
-
+      const response = await fetchPets(searchInput, accessToken);
+      console.log(response)
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
@@ -87,8 +91,11 @@ const SearchPets = () => {
       console.error(err);
     }
   };
-
-  return (
+console.log(searchInput);
+const handleInputChange = (e) => {
+  setSearchInput(e.target.value)
+}  
+return (
     <>
       <Jumbotron fluid className="text-light bg-dark">
         <Container>
@@ -99,7 +106,7 @@ const SearchPets = () => {
                 <Form.Control
                   name="searchInput"
                   value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
+                  onChange={handleInputChange}
                   type="text"
                   size="lg"
                   placeholder="Search for a pet"
