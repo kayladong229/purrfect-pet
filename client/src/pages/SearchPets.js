@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import {
+  Jumbotron,
+  Container,
+  Col,
+  Form,
+  Button,
+  Card,
+  CardColumns,
+} from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 
-import Auth from '../utils/auth';
-import { searchPets } from '../utils/API';
-import { savePetIds, getSavedPetIds } from '../utils/localStorage';
-import {SAVE_PET} from '../utils/mutations';
+import Auth from "../utils/auth";
+import { fetchPets } from '../utils/API';
+import { savePetIds, getSavedPetIds } from "../utils/localStorage";
+import { SAVE_PET } from "../utils/mutations";
+
+import { useContext } from "react";
+import { AuthContext } from "../App";
 
 const SearchPets = () => {
+  const accessToken = useContext(AuthContext);
   // create state for holding returned Petfinder api data
   const [searchedPets, setsearchedPets] = useState([]);
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   // create state to hold saved petsId values
   const [savedPetIds, setSavedPetIds] = useState(getSavedPetIds());
@@ -33,10 +45,10 @@ const SearchPets = () => {
     }
 
     try {
-      const response = await searchPets(searchInput);
-
+      const response = await fetchPets(searchInput, accessToken);
+      console.log(response)
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error("something went wrong!");
       }
 
       const { items } = await response.json();
@@ -46,11 +58,11 @@ const SearchPets = () => {
         type: pet.type,
         gender: pet.gender,
         description: pet.attributes.description,
-        image: pet.photos.imageLinks?.thumbnail || '',
+        image: pet.photos.imageLinks?.thumbnail || "",
       }));
 
       setsearchedPets(petData);
-      setSearchInput('');
+      setSearchInput("");
     } catch (err) {
       console.error(err);
     }
@@ -71,8 +83,8 @@ const SearchPets = () => {
     try {
       // eslint-disable-next-line
       const { data } = await savePet({
-        variables: { input: petToSave }
-      })
+        variables: { input: petToSave },
+      });
 
       // if pet successfully saves to user's account, save pet id to state
       setSavedPetIds([...savedPetIds, petToSave.petId]);
@@ -80,26 +92,29 @@ const SearchPets = () => {
       console.error(err);
     }
   };
-
-  return (
+console.log(searchInput);
+const handleInputChange = (e) => {
+  setSearchInput(e.target.value)
+}  
+return (
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <Jumbotron fluid className="text-light bg-dark">
         <Container>
           <h1>Search for Pets!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={8}>
                 <Form.Control
-                  name='searchInput'
+                  name="searchInput"
                   value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a pet'
+                  onChange={handleInputChange}
+                  type="text"
+                  size="lg"
+                  placeholder="Search for a pet"
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button type="submit" variant="success" size="lg">
                   Submit Search
                 </Button>
               </Col>
@@ -112,27 +127,36 @@ const SearchPets = () => {
         <h2>
           {searchedPets.length
             ? `Viewing ${searchedPets.length} results:`
-            : 'Search for a pet to begin'}
+            : "Search for a pet to begin"}
         </h2>
         <CardColumns>
           {searchedPets.map((pet) => {
             return (
-              <Card key={pet.petId} border='dark'>
+              <Card key={pet.petId} border="dark">
                 {pet.image ? (
-                  <Card.Img src={pet.image} alt={`I am ${pet.status}`} variant='top' />
+                  <Card.Img
+                    src={pet.image}
+                    alt={`I am ${pet.status}`}
+                    variant="top"
+                  />
                 ) : null}
                 <Card.Body>
                   <Card.Title>{pet.type}</Card.Title>
-                  <p className='small'>Pet type: {pet.type}</p>
+                  <p className="small">Pet type: {pet.type}</p>
                   <Card.Text>{pet.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
-                      disabled={savedPetIds?.some((savedPetId) => savedPetId === pet.petId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSavePet(pet.petId)}>
-                      {savedPetIds?.some((savedPetId) => savedPetId === pet.petId)
-                        ? 'This pet has already been saved!'
-                        : 'Save this pet!'}
+                      disabled={savedPetIds?.some(
+                        (savedPetId) => savedPetId === pet.petId
+                      )}
+                      className="btn-block btn-info"
+                      onClick={() => handleSavePet(pet.petId)}
+                    >
+                      {savedPetIds?.some(
+                        (savedPetId) => savedPetId === pet.petId
+                      )
+                        ? "This pet has already been saved!"
+                        : "Save this pet!"}
                     </Button>
                   )}
                 </Card.Body>

@@ -1,41 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import { Link } from 'react-router-dom';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+import { useQuery, useMutation } from "@apollo/client";
 
-import { getMe, deletePet } from '../utils/API';
+// import { getMe, deletePet } from '../utils/API';
 import Auth from '../utils/auth';
 import { removePetId } from '../utils/localStorage';
+import { GET_ME } from '../utils/queries';
+import { REMOVE_PET } from '../utils/mutations';
 
 const SavedPets = () => {
-  const [userData, setUserData] = useState({});
+  const { loading, data } = useQuery(GET_ME);
+  const [removePet] = useMutation(REMOVE_PET);
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  const userData = data?.me || {};
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     try {
+  //       const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-        if (!token) {
-          return false;
-        }
+  //       if (!token) {
+  //         return false;
+  //       }
 
-        const response = await getMe(token);
+  //       const response = await getMe(token);
 
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+  //       if (!response.ok) {
+  //         throw new Error('something went wrong!');
+  //       }
 
-        const user = await response.json();
-        setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  //       const user = await response.json();
+  //       setUserData(user);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-    getUserData();
-  }, [userDataLength]);
+  //   getUserData();
+  // }, [userDataLength]);
 
   // create function that accepts the pet's mongo _id value as param and deletes the pet from the database
   const handleDeletePet = async (petId) => {
@@ -46,14 +49,10 @@ const SavedPets = () => {
     }
 
     try {
-      const response = await deletePet(petId, token);
+      const { data } = await removePet({
+        variables: { petId },
+      });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
       // upon success, remove pet's id from localStorage
       removePetId(petId);
     } catch (err) {
@@ -62,7 +61,7 @@ const SavedPets = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 

@@ -52,10 +52,24 @@
 
 // // make a search to google pets api
 // // https://www.googleapis.com/books/v1/volumes?q=harry+potter
-// export const searchPets = (type) => {
-//   return fetch(`https://api.petfinder.com/v2/animals?type=${type}`, {
-//     crossorigin: true,
-//           withCredentials: true,    
-//           mode: 'no-cors'}
-//           )};
+
+import { useContext } from "react";
+import { AuthContext } from "../App";
+
+export const fetchPets = (type, accessToken) => {
+  console.log(accessToken)
+  return fetch(`https://api.petfinder.com/v2/animals?type=${type}`, {
+    // crossOrigin: true,
+    origin: "http://localhost:3000",
+    // credentials: "include",
+    // headers: 
+    headers: new Headers({
+         "Authorization": `Bearer ${accessToken}`,
+      //    'Access-Control-Allow-Credentials': 'true',
+			// 'Access-Control-Allow-Origin': 'http://localhost:3000',
+			'Content-Type': 'application/json',
+    }),
+          // withCredentials: true,    
+          mode: 'cors'}
+          )};
 
