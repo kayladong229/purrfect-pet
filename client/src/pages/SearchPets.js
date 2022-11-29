@@ -69,6 +69,7 @@ const SearchPets = () => {
     }
 
     try {
+      // eslint-disable-next-line
       const { data } = await savePet({
         variables: { input: petToSave }
       })
