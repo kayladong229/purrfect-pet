@@ -97,7 +97,7 @@ const handleInputChange = (e) => {
 }  
 return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      <Jumbotron fluid className="bg-light">
         <Container>
           <h1>Search for Pets!</h1>
           <Form onSubmit={handleFormSubmit}>
@@ -113,7 +113,7 @@ return (
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
+                <Button type="submit" variant="info" size="lg">
                   Submit Search
                 </Button>
               </Col>
