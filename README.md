@@ -31,6 +31,8 @@ Purrfect Pet is an application that allows users to select a wide variety of pet
 
 * JWT
 
+* PWA (service worker)
+
 ***
 
 <a name="screenshots"></a>
