@@ -22,7 +22,7 @@ const AppNavbar = () => {
   
     return (
       <>
-        <Navbar bg='dark' variant='dark' expand='lg'>
+        <Navbar bg='light' variant='light' expand='lg'>
           <Container fluid>
             <Navbar.Brand as={Link} to='/'>
               Pet Search

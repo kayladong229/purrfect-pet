@@ -5,7 +5,7 @@
 ***
 
 ## Description
-Purrfect Pet is an application that allows users to select a wide variety of pets in a style reminiscent of dating apps (e.g. Tinder). Users can create an account and put a search term (e.g. dog, cat) in the search bar at the top, and in turn, receive a gallery of dogs one photo at a time. Pets that are swiped to the right are saved to the users' Favorite Pets page, and pets that are swiped to the left are not.
+Purrfect Pet is an application that allows users to select a wide variety of pets in a style reminiscent of dating apps (e.g. Tinder). Users can create an account and put a search term (e.g. dog, cat) in the search bar at the top, and in turn, receive a gallery of their searched pets one photo at a time. Pets that are swiped to the right are saved to the users' Favorite Pets page, and pets that are swiped to the left are not.
 ***
 
 ## Table of Contents
@@ -38,7 +38,7 @@ Purrfect Pet is an application that allows users to select a wide variety of pet
 <a name="screenshots"></a>
 ## Screenshots
 
-<!-- ![Login page](./Assets/Screen%20Shot%202022-09-28%20at%2010.29.21%20PM.png) -->
+![Purrfect Pet preview](./assets/purrfect-pet.png)
 ***
 
 <a name="links"></a>

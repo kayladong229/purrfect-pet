@@ -18,7 +18,9 @@ import { SAVE_PET } from "../utils/mutations";
 import { useContext } from "react";
 import { AuthContext } from "../App";
 
+
 const SearchPets = () => {
+
   const accessToken = useContext(AuthContext);
   // create state for holding returned Petfinder api data
   const [searchedPets, setsearchedPets] = useState([]);
@@ -29,13 +31,14 @@ const SearchPets = () => {
   const [savedPetIds, setSavedPetIds] = useState(getSavedPetIds());
 
   const [savePet] = useMutation(SAVE_PET);
-
+  let [petData, setPetData] = useState([]);
   // set up useEffect hook to save `savedPetIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
     return () => savePetIds(savedPetIds);
   });
 
+  
   // create method to search for petss and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -51,27 +54,44 @@ const SearchPets = () => {
         throw new Error("something went wrong!");
       }
 
-      const { items } = await response.json();
+      const matchPets = await response.json();
+    //   var photo = matchPets?.animals?.[0]?.photos?.[0]?.medium
+    //   if (photo) { 
+    //       console.log(photo); 
+    //   }
+    //       else { console.log('photo is empty'); 
+    //   }
+          
+      console.log(matchPets?.animals)
 
-      const petData = items.map((pet) => ({
-        petId: pet.id,
-        type: pet.type,
-        gender: pet.gender,
-        description: pet.attributes.description,
-        image: pet.photos.imageLinks?.thumbnail || "",
-      }));
+      function getPhoto (photos) {
+        var smallPhoto = photos.find(photo => photo.small)
+        return smallPhoto?.small
+      }
 
-      setsearchedPets(petData);
+        petData = matchPets.animals.map((animal) => ({
+        petId: animal.id,
+        type: animal.type,
+        name: animal.name,
+        breed: animal.breed,
+        status: animal.status,
+        gender: animal.gender,
+        description: animal.description,
+        image: getPhoto(animal?.photos) || "",
+      })); 
+      setPetData(petData);
+    //   setsearchedPets(petData);
       setSearchInput("");
     } catch (err) {
-      console.error(err);
+        console.error(err);
     }
-  };
+};
 
+console.log(petData)
   // create function to handle saving a pet to our database
   const handleSavePet = async (petId) => {
     // find the pet in `searchedPets` state by the matching id
-    const petToSave = searchedPets.find((pet) => pet.petId === petId);
+    const petToSave = searchedPets.find((animals) => animals.petId === petId);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -98,7 +118,7 @@ const handleInputChange = (e) => {
 }  
 return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      <Jumbotron fluid className="bg-light">
         <Container>
           <h1>Search for Pets!</h1>
           <Form onSubmit={handleFormSubmit}>
@@ -114,7 +134,7 @@ return (
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
+                <Button type="submit" variant="info" size="lg">
                   Submit Search
                 </Button>
               </Col>
@@ -130,30 +150,26 @@ return (
             : "Search for a pet to begin"}
         </h2>
         <CardColumns>
-          {searchedPets.map((pet) => {
+          {petData.map((animal) => {
             return (
-              <Card key={pet.petId} border="dark">
-                {pet.image ? (
-                  <Card.Img
-                    src={pet.image}
-                    alt={`I am ${pet.status}`}
-                    variant="top"
-                  />
-                ) : null}
+              <Card key={animal.petId} border="dark">
+
                 <Card.Body>
-                  <Card.Title>{pet.type}</Card.Title>
-                  <p className="small">Pet type: {pet.type}</p>
-                  <Card.Text>{pet.description}</Card.Text>
+
+                  <Card.Title>{animal.name}</Card.Title>
+                  <p className="small">gender: {animal.gender}</p>
+                  <img src= {animal?.image}/>
+                  <Card.Text>{animal.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedPetIds?.some(
-                        (savedPetId) => savedPetId === pet.petId
+                        (savedPetId) => savedPetId === animal.petId
                       )}
                       className="btn-block btn-info"
-                      onClick={() => handleSavePet(pet.petId)}
+                      onClick={() => handleSavePet(animal.petId)}
                     >
                       {savedPetIds?.some(
-                        (savedPetId) => savedPetId === pet.petId
+                        (savedPetId) => savedPetId === animal.petId
                       )
                         ? "This pet has already been saved!"
                         : "Save this pet!"}
