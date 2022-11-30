@@ -17,6 +17,8 @@ const typeDefs = gql`
     gender: String
     age: String
     coat: String
+    description: String
+    image: String
     status: String
     name: String
     good_with_children: Boolean

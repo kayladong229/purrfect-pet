@@ -8,6 +8,9 @@ const petSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String
+  },
   type: 
     {
       type: String,
@@ -15,27 +18,21 @@ const petSchema = new Schema({
     },
   breed: {
     type: String,
-    required: true,
   },
   size: {
     type: String,
-    required: true,
   },
   gender: {
     type: String,
-    required: true,
   },
   age: {
     type: String,
-    required: true,
   },
   coat: {
     type: String,
-    required: true,
   },
   status: {
     type: String,
-    required: true,
   },
   name: {
     type: String,
@@ -43,20 +40,19 @@ const petSchema = new Schema({
   },
   good_with_children: {
     type: Boolean,
-    required: true,
   },
   house_trained: {
     type: Boolean,
-    required: true,
   },
   special_needs: {
     type: Boolean,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
+  image: {
+    type: String
+  }
 });
 
 module.exports = petSchema;

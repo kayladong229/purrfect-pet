@@ -29,7 +29,6 @@ const SearchPets = () => {
 
   // create state to hold saved petsId values
   const [savedPetIds, setSavedPetIds] = useState(getSavedPetIds());
-
   const [savePet] = useMutation(SAVE_PET);
   let [petData, setPetData] = useState([]);
   // set up useEffect hook to save `savedPetIds` list to localStorage on component unmount
@@ -80,7 +79,7 @@ const SearchPets = () => {
         image: getPhoto(animal?.photos) || "",
       })); 
       setPetData(petData);
-    //   setsearchedPets(petData);
+      setsearchedPets(petData);
       setSearchInput("");
     } catch (err) {
         console.error(err);
@@ -91,8 +90,8 @@ console.log(petData)
   // create function to handle saving a pet to our database
   const handleSavePet = async (petId) => {
     // find the pet in `searchedPets` state by the matching id
-    const petToSave = searchedPets.find((animals) => animals.petId === petId);
-
+    const petToSave = petData.find((animal) => animal.petId === petId);
+    console.log(petId)
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -103,7 +102,7 @@ console.log(petData)
     try {
       // eslint-disable-next-line
       const { data } = await savePet({
-        variables: { input: petToSave },
+        variables: { input: {...petToSave} },
       });
 
       // if pet successfully saves to user's account, save pet id to state
