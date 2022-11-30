@@ -40,15 +40,12 @@ const resolvers = {
       return { token, user };
     },
     savePet: async (parent, { input }, context) => {
-      console.log("input");
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { savedPets: input } },
           { new: true, runValidators: true }
         ); 
-console.log(input);
-console.log(updatedUser);
         return updatedUser;
       }
       throw new AuthenticationError('You need to be logged in!');
