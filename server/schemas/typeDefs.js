@@ -10,21 +10,21 @@ const typeDefs = gql`
   }
 
   type Pet {
-    petId: ID
-    type: String
-    breed: String
-    size: String
-    gender: String
     age: String
+    breed: String
     coat: String
     description: String
-    image: String
-    status: String
-    name: String
+    gender: String
     good_with_children: Boolean
     house_trained: Boolean
-    special_needs: Boolean
+    image: String
     location: String
+    name: String
+    petId: ID
+    size: String
+    special_needs: Boolean
+    status: String
+    type: String
   }
 
   type Auth {
@@ -33,19 +33,21 @@ const typeDefs = gql`
   }
 
   input PetInput {
-    petId: ID
-    type: String
-    breed: String
-    size: String
-    gender: String
     age: String
+    breed: String
     coat: String
-    status: String
-    name: String
+    description: String
+    gender: String
     good_with_children: Boolean
     house_trained: Boolean
-    special_needs: Boolean
+    image: String
     location: String
+    name: String
+    petId: ID
+    size: String
+    special_needs: Boolean
+    status: String
+    type: String
   }
 
   type Query {
