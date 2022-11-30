@@ -52,16 +52,12 @@ export const SAVE_PET = gql`
         petId
         type
         breed
-        size
+        description
         gender
         age
-        coat
+        image
         status
         name
-        good_with_children
-        house_trained
-        special_needs
-        location
       }
     }
   }

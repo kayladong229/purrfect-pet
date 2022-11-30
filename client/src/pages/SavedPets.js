@@ -75,7 +75,7 @@ const SavedPets = () => {
       <Container>
         <h2>
           {userData.savedPets.length
-            ? `Viewing ${userData.savedPets.length} saved ${userData.savedPets.length === 1 ? 'Pet' : 'Pets'}:`
+            ? `Viewing ${userData.savedPets.length} saved ${userData.savedPets.length === 1 ? 'pet' : 'pets'}:`
             : 'You have no saved pets!'}
         </h2>
         <CardColumns>
