@@ -65,8 +65,8 @@ const SearchPets = () => {
       console.log(matchPets?.animals)
 
       function getPhoto (photos) {
-        var mediumPhoto = photos.find(photo => photo.medium)
-        return mediumPhoto?.medium
+        var smallPhoto = photos.find(photo => photo.small)
+        return smallPhoto?.small
       }
 
         petData = matchPets.animals.map((animal) => ({
